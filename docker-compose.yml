@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  pipeline:
+    image: nexus-pipeline:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.pipeline
+    container_name: nexus-pipeline
+    volumes:
+      - ./data/raw:/app/data/raw:ro
+      - processed-data:/app/data/processed
+      - ./config/metadata:/app/config/metadata
+    environment:
+      - PROJECT_ROOT=/app
+      - DATABASE_PATH=/app/data/processed/forest.db
+      - LOG_LEVEL=INFO
+    command: ["--drop-existing"]
+    profiles:
+      - pipeline
+
+  test:
+    image: nexus-test:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.test
+    container_name: nexus-test
+    volumes:
+      - processed-data:/app/data/processed  # Removed :ro - SQLite needs write access for temp files
+      - ./test-reports:/app/test-reports
+    environment:
+      - PROJECT_ROOT=/app
+      - DATABASE_PATH=/app/data/processed/forest.db
+      - PYTEST_ARGS=-v
+    command: ["all"]
+    profiles:
+      - test
+
+  mcp-server:
+    image: nexus-mcp-server:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mcp
+    container_name: nexus-mcp-server
+    volumes:
+      - processed-data:/app/data/processed
+      - ./config/metadata:/app/config/metadata:ro
+    environment:
+      - PROJECT_ROOT=/app
+      - DATABASE_PATH=/app/data/processed/forest.db
+      - CLIMATEGPT_URL=${CLIMATEGPT_URL}
+      - CLIMATEGPT_USER=${CLIMATEGPT_USER}
+      - CLIMATEGPT_PASSWORD=${CLIMATEGPT_PASSWORD}
+      - CLIMATEGPT_MODEL=${CLIMATEGPT_MODEL:-/cache/climategpt_8b_test}
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "test", "-f", "/app/data/processed/forest.db"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    profiles:
+      - production
+
+volumes:
+  processed-data:
+    driver: local
+    labels:
+      - "com.nexus.description=Persistent storage for processed forest database"

@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+*.log
+.docker/
+
+# MCP
+.mcp-cache/
+mcp-logs/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.env
+secrets/
+credentials/
+*.key
+*.pem
+*.cert
+
+# Data Files
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/checkpoints/*
+!data/checkpoints/.gitkeep
+
+# OS specific
+Thumbs.db
+Desktop.ini
+
+# UV
+.uv/
+uv.lock  # Remove this line if you want to commit the lock file (recommended)
