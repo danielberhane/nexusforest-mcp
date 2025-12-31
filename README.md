@@ -2,8 +2,7 @@
 
 > Bridge the gap between AI models and climate data - 24 years of Global Forest Watch insights covering 165+ countries, accessible through natural conversation.
 
-NexusForest Model Context Protocol (MCP) server provides structured access to Global Forest Watch (GFW) deforestation and carbon emission data, enabling AI models to deliver quantified, source-attributed climate intelligence. Developed in partnership with Erasmus.AI to enhance ClimateGPT's capabilities with structured data access, fully compatible with any MCP client including Claude Desktop.
-
+NexusForest Model Context Protocol (MCP) server provides structured access to Global Forest Watch (GFW) deforestation and carbon emission data, enabling AI models to deliver quantified, source-attributed climate intelligence. Developed in partnership with Erasmus.AI to enhance ClimateGPT's capabilities with structured data access.
 ## Features
 
 - **Comprehensive Coverage**: 165+ countries, 24 years (2001-2024)
@@ -21,7 +20,7 @@ NexusForest Model Context Protocol (MCP) server provides structured access to Gl
 - Claude Desktop (latest)
 - Excel data file: `global_05212025.xlsx` (Download from [Global Forest Watch](https://www.globalforestwatch.org/dashboards/global/))
 
-### Installation (3 minutes)
+### Installation
 
 ```bash
 # 1. Clone repository
@@ -129,7 +128,10 @@ notepad %APPDATA%\Claude\claude_desktop_config.json
 | `rank_countries` | Rankings by metric | "Top 10 by forest loss" |
 | `calculate_primary_share` | Primary forest % | "Primary forest share Brazil" |
 | `calculate_carbon_intensity` | CO2 per hectare | "Carbon intensity Amazon" |
+| `compare_thresholds` | Compare across thresholds | "Compare 30% vs 75% Brazil" |
 | `aggregate_global` | Global totals | "Global forest loss 2023" |
+| `list_tropical_countries` | List tropical countries | "Show tropical countries" |
+| `get_database_summary` | Database statistics | "Database summary" |
 
 See [API Documentation](docs/API.md) for complete tool reference.
 
@@ -146,7 +148,7 @@ MCP Client (Claude/ClimateGPT) → MCP Server (Docker) → SQLite Database (43MB
 - **Metadata-driven validation** for data quality
 - **Index-optimized SQLite** for sub-50ms queries
 
-📊 See [Architecture Documentation](docs/ARCHITECTURE.md) for detailed system diagram and component design.
+See [Architecture Documentation](docs/ARCHITECTURE.md) for detailed system diagram and component design.
 
 ## Data Updates
 
@@ -195,7 +197,7 @@ docker-compose --profile test up
 - ✅ Read-only database access
 - ✅ Environment-based secrets
 - ✅ Input validation & sanitization
-- ✅ Table whitelist enforcement
+
 
 ## License
 
