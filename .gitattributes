@@ -11,6 +11,7 @@
 *.sh text eol=lf
 *.dockerfile text eol=lf
 Dockerfile text eol=lf
+*.csv text eol=lf
 
 # Declare files that will always have CRLF line endings on checkout
 *.bat text eol=crlf

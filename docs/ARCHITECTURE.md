@@ -6,60 +6,10 @@ NexusForest MCP implements a Model Context Protocol (MCP) interface to provide s
 
 ## System Architecture Diagram
 
-```
+![NexusForest MCP Architecture](MCP_architecture.png)
 
-┌─────────────────────────────────────────────────────────────────┐
-│                         MCP CLIENT                              │
-│                (Claude Desktop / ClimateGPT)                    │
-│                                                                 │
-│    User Query: "What was Brazil's forest loss in 2023?"         │
-│                                                                 │
-│    [Tool Selection] → [Parameter Extraction] → [JSON-RPC]       │
-└────────────────────────────────┬────────────────────────────────┘
-                                 │
-                                 │ stdio pipe
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       DOCKER CONTAINER                          │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │                MCP SERVER (nexus-mcp-server)              │  │
-│  ├───────────────────────────────────────────────────────────┤  │
-│  │                                                           │  │
-│  │   ┌─────────────┐  ┌──────────────┐  ┌──────────────┐     │  │
-│  │   │  12 Tools   │  │  Validation  │  │ SQL Builder  │     │  │
-│  │   │  Registry   │──│    Engine    │──│   & Cache    │     │  │
-│  │   └─────────────┘  └──────────────┘  └──────────────┘     │  │
-│  │          │                │                  │            │  │
-│  │          └────────────────┼──────────────────┘            │  │
-│  │                           ▼                               │  │
-│  │   ┌───────────────────────────────────────────────────┐   │  │
-│  │   │                 DATABASE MANAGER                  │   │  │
-│  │   └───────────────────────┬───────────────────────────┘   │  │
-│  └───────────────────────────┼───────────────────────────────┘  │
-└──────────────────────────────┼──────────────────────────────────┘
-                               │
-            ┌──────────────────┴──────────────────┐
-            ▼                                     ▼
-   ┌──────────────────┐                  ┌──────────────────┐
-   │    forest.db     │                  │  Metadata Files  │
-   │                  │                  │                  │
-   │  • 3 fact tables │                  │ • semantic.json  │
-   │  • 12 indexes    │                  │ • runtime.json   │
-   │  • 43MB SQLite   │                  │                  │
-   └──────────────────┘                  └──────────────────┘
+### Data Flow
 
-                     Optional Enhancement:
-                              │
-                              ▼
-                    ┌──────────────────────┐
-                    │    ClimateGPT API    │
-                    │    (When needed)     │
-                    └──────────────────────┘
-
-```
-
-
-**Data Flow:**
 1. User queries Claude Desktop
 2. Claude selects appropriate MCP tool (from 12 available)
 3. Tool function validates parameters and executes parameterized SQL
@@ -148,7 +98,7 @@ class ForestDataMCPServer:
    ↓
 5. Parameterized SQL query executes against SQLite
    ↓
-6. Optional ClimateGPT API enhancement (for complex analysis)
+6. ClimateGPT API enhancement 
    ↓
 7. Formatted response with source attribution
    ↓
@@ -215,24 +165,6 @@ The system uses a dual-metadata approach:
 
 ## Database Optimization
 
-### Indexes
-
-```sql
--- Indexes for efficient lookups
-CREATE INDEX idx_tree_cover_country_year
-    ON fact_tree_cover_loss(country, year);
-
-CREATE INDEX idx_tree_cover_threshold
-    ON fact_tree_cover_loss(threshold);
-
-CREATE INDEX idx_primary_forest_country_year
-    ON fact_primary_forest(country, year);
-
-CREATE INDEX idx_carbon_country_year_threshold
-    ON fact_carbon(country, year, threshold);
-```
-
-These indexes optimize for the most common query patterns: country-year lookups and threshold filtering.
 
 ## Containerization Strategy
 

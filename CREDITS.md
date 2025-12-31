@@ -1,7 +1,5 @@
 # Credits
 
-## Project Team - GMU DAEN 690 Capstone Spring 2025
-
 ### Faculty Advisor
 **Dr. James Baldo**
 - Project supervision and guidance
@@ -15,7 +13,7 @@
 - Built the ETL pipeline
 
 ### Testing & Validation Team
-The following team members conducted comprehensive testing using 100 real-world queries across 6 stakeholder personas:
+The following team members conducted comprehensive testing using 100 test queries across 6 stakeholder personas:
 
 - Rushikesh Reddy - *Additional contribution: Windows installation documentation*
 - Chandra Kiran
@@ -39,4 +37,4 @@ Source: Hansen/UMD/Google/USGS/NASA
 
 ---
 
-*This project was completed as part of George Mason University's DAEN 690 Capstone course.*
+*This project was completed as part of George Mason University's DAEN Capstone course.*

@@ -146,7 +146,7 @@ MCP Client (Claude/ClimateGPT) → MCP Server (Docker) → SQLite Database (43MB
 - **Metadata-driven validation** for data quality
 - **Index-optimized SQLite** for sub-50ms queries
 
-See [Architecture Documentation](docs/ARCHITECTURE.md) for details.
+📊 See [Architecture Documentation](docs/ARCHITECTURE.md) for detailed system diagram and component design.
 
 ## Data Updates
 
@@ -212,9 +212,9 @@ Apache License 2.0 - See [LICENSE](LICENSE) for details.
 
 ## Support
 
-- 📖 [Documentation](docs/)
-- 🐛 [Report Issues](https://github.com/danielberhane/nexusforest-mcp/issues)
-- 📧 Contact: [via GitHub](https://github.com/danielberhane)
+- [Documentation](docs/)
+- [Report Issues](https://github.com/danielberhane/nexusforest-mcp/issues)
+- Contact: [via GitHub](https://github.com/danielberhane)
 
 ---
 
